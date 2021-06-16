@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfans.bmsdemo.mapper.BookMapper">
+
+    <insert
+            id="insert"
+            parameterType="com.zfans.bmsdemo.entity.Book"
+            keyProperty="id"
+            useGeneratedKeys="true">
+        insert into book(name, author, publish, price, description, amount)
+            value (#{name}, #{author}, #{publish}, #{price}, #{description}, #{amount})
+    </insert>
+
+
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfans.bmsdemo.mapper.CategoryMapper">
+
+    <update
+            id="update"
+            parameterType="com.zfans.bmsdemo.entity.Category"
+            flushCache="true">
+        update category
+        set name = #{name}
+        where id = #{id}
+    </update>
+
+    <select id="selectAll" resultType="com.zfans.bmsdemo.entity.Category">
+        select id, name
+        from category;
+    </select>
+
+    <select id="selectByLike" resultType="com.zfans.bmsdemo.entity.Category">
+        select id, name
+        from category
+        where name
+                  like concat('%', #{name}, '%')
+    </select>
+
+
+    <select id="selectByidList" resultType="com.zfans.bmsdemo.entity.Category">
+        select id, name
+        from category
+        where id in
+        <foreach collection="list" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>
