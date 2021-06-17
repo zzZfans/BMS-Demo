@@ -1,0 +1,104 @@
+server:
+  port: 8888
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: BMS-Demo
+  datasource:
+    # 基本属性由 druid-spring-boot-starter 默认读取
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/BMS-Demo?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
+    username: username
+    password: password
+    # 其他属性需 druid 指定
+    druid:
+      # 初始化时建立物理连接的个数
+      initial-size: 5
+      # 最小连接池数量
+      min-idle: 5
+      # 最大连接池数量
+      max-active: 20
+      # 获取连接时最大等待时间，单位毫秒
+      max-wait: 60000
+      # 申请连接的时候检测，如果空闲时间大于 timeBetweenEvictionRunsMillis，执行 validationQuery 检测连接是否有效。
+      test-while-idle: true
+      # 既作为检测的间隔时间又作为 testWhileIdel 执行的依据
+      time-between-eviction-runs-millis: 60000
+      # 销毁线程时检测当前连接的最后活动时间和当前时间差大于该值时，关闭当前连接
+      min-evictable-idle-time-millis: 30000
+      # 用来检测连接是否有效的sql 必须是一个查询语句
+      # mysql中为 select 'x'
+      # oracle中为 select 1 from dual
+      validation-query: select 'x'
+      # 申请连接时会执行 validationQuery 检测连接是否有效,开启会降低性能,默认为 true
+      test-on-borrow: false
+      # 归还连接时会执行 validationQuery 检测连接是否有效,开启会降低性能,默认为 true
+      test-on-return: false
+      # 是否缓存 preparedStatement , mysql5.5+ 建议开启
+      pool-prepared-statements: true
+      # 当值大于给定值时 poolPreparedStatements 会自动修改为 true
+      max-pool-prepared-statement-per-connection-size: 20
+      # 配置扩展插件 stat: 监控统计 wall: 防御 sql 注入 slf4j: 日志记录
+      filters: stat,wall,slf4j
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 合并多个 DruidDataSource 的监控数据
+      use-global-data-source-stat: true
+      # 配置 DruidStatFilter
+      # 配置监控属性：在druid-starter的 com.alibaba.druid.spring.boot.autoconfigure.stat 包下进行的逻辑配置
+      web-stat-filter:
+        # 默认为 false，表示不使用 WebStatFilter 配置，就是属性名去短线
+        enabled: true
+        # /* 表示过滤所有请求
+        url-pattern: /*
+        # 排除项
+        exclusions: .js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*
+      # 配置 DruidStatViewServlet
+      stat-view-servlet:
+        # 启动控制台，默认地址就是 ip:端口号/druid/index.html
+        # 默认为 false，表示不使用 StatViewServlet 配置，就是属性名去短线
+        enabled: true
+        # 配置 DruidStatViewServlet 的访问地址。后台监控页面的访问地址
+        url-pattern: /druid/*
+        # IP 白名单，没有配置或者为空，则允许所有访问
+        allow: 127.0.0.1
+        # IP 黑名单，若白名单也存在，则优先使用
+        deny:
+        # 禁用 HTML 中 Reset All 按钮
+        # 禁用 HTML 页面上的“重置”功能，会把所有监控的数据全部清空，一般不使用
+        reset-enable: false
+        # 监控页面登录用户名
+        login-username: admin
+        # 监控页面登录密码
+        login-password: admin
+      # Spring 监控配置，说明参考 Druid Github Wiki，配置 Druid 和 Spring 关联监控配置
+      aop-patterns: com.zfans.bmsdemo.service.impl.*
+
+# mybatis映射文件路径
+mybatis:
+  #  configuration:
+  #    # 下划线转驼峰
+  #    map-underscore-to-camel-case: true
+  mapper-locations: classpath:com.zfans.bmsdemo.mapper/*.xml
+#  type-aliases-package: com/zfans/bmsdemo/entity
+
+# pagehelper分页插件
+pagehelper:
+  # 分页插件会自动检测当前的数据库链接，自动选择合适的分页方式
+  helper-dialect: mysql
+  # 分页合理化参数，默认值为 false。当该参数设置为 true 时，pageNum<=0 时会查询第一页，
+  # pageNum>pages（超过总数时），会查询最后一页。默认 false 时，直接根据参数进行查询
+  reasonable: true
+  # 为了支持 startPage(Object params) 方法，增加了该参数来配置参数映射，用于从对象中根据属性名取值，
+  # 可以配置 pageNum,pageSize,count,pageSizeZero,reasonable，不配置映射的用默认值，
+  # 默认值为 pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero。
+  params: count=countSql
+  # 支持通过 Mapper 接口参数来传递分页参数，默认值 false，分页插件会从查询方法的参数值中，
+  # 自动根据上面 params 配置的字段中取值，查找到合适的值时就会自动分页
+  support-methods-arguments: true
+  row-bounds-with-count: true
+  # 默认值为 false，当该参数设置为 true 时，如果 pageSize=0 或者 RowBounds.limit = 0 就会查询出全部的结果
+  # （相当于没有执行分页查询，但是返回结果仍然是 Page 类型）。我测试时，发现不设置，pageSize=0 也会返回全部
+  page-size-zero: true
