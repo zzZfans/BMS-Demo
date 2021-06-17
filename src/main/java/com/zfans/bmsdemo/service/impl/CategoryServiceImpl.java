@@ -63,11 +63,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> selectByLike(String name) {
-        return categoryMapper.selectByLike(name);
+        return categoryMapper.fuzzySelectByName(name);
     }
 
     @Override
     public List<Category> selectByidList(List<Long> idList) {
         return categoryMapper.selectByidList(idList);
+    }
+
+    @Override
+    public List<Category> fuzzySelectByName(String name) {
+        return categoryMapper.fuzzySelectByName(name);
     }
 }

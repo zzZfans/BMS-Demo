@@ -65,4 +65,16 @@ public class BookController {
                 R.ok().data("data", pageResult) : R.error().message("查询失败");
     }
 
+    @ApiOperation("通过名称匹配获取图书列表")
+    @GetMapping("list/fuzzy/{name}")
+    public R listByFuzzy(@ApiParam(value = "图书名称匹配值", required = true) @PathVariable String name) {
+        return R.ok().data("bookList", bookService.fuzzySelectByName(name));
+    }
+
+    @ApiOperation("通过作者名称获取图书列表")
+    @GetMapping("list/{author}")
+    public R listByAuthor(@ApiParam(value = "作者名称", required = true) @PathVariable String author) {
+        return R.ok().data("bookList", bookService.selectByAuthor(author));
+    }
+
 }

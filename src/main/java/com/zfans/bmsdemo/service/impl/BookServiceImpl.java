@@ -104,7 +104,7 @@ public class BookServiceImpl implements BookService {
         return true;
     }
 
-    List<BookVo> bookListToBookVoList(List<Book> bookList) {
+    private List<BookVo> bookListToBookVoList(List<Book> bookList) {
         return bookList
                 .stream()
                 .map(book -> {
@@ -144,5 +144,15 @@ public class BookServiceImpl implements BookService {
         PageInfo<BookVo> pageInfo = new PageInfo<>(bookListToBookVoList(bookList));
 
         return PageUtil.getPageResult(pageInfo);
+    }
+
+    @Override
+    public List<BookVo> fuzzySelectByName(String name) {
+        return bookListToBookVoList(bookMapper.fuzzySelectByName(name));
+    }
+
+    @Override
+    public List<BookVo> selectByAuthor(String author) {
+        return bookListToBookVoList(bookMapper.selectByAuthor(author));
     }
 }

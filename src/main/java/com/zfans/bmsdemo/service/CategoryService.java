@@ -24,4 +24,6 @@ public interface CategoryService {
     List<Category> selectByLike(String name);
 
     List<Category> selectByidList(List<Long> idList);
+
+    List<Category> fuzzySelectByName(String name);
 }

@@ -76,7 +76,7 @@ public interface CategoryMapper {
      * @param name 关键字
      * @return 匹配的图书类型列表
      */
-    List<Category> selectByLike(String name);
+    List<Category> fuzzySelectByName(String name);
 
     /**
      * 根据图书类型 id 列表查询

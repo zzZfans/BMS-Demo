@@ -39,4 +39,10 @@ public interface BookMapper {
 
     @Select("select * from book")
     Page<Book> selectAllForPage();
+
+    @Select("select * from book where name like concat('%', #{name}, '%')")
+    List<Book> fuzzySelectByName(String name);
+
+    @Select("select * from book where author = #{author}")
+    List<Book> selectByAuthor(String author);
 }

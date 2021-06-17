@@ -55,6 +55,12 @@ public class CategoryContrlller {
         return R.ok().data("categoryList", categoryService.selectAll());
     }
 
+    @ApiOperation("通过名称匹配获取图书类型列表")
+    @GetMapping("list/{name}")
+    public R listByFuzzy(@ApiParam(value = "名称匹配值", required = true) @PathVariable String name) {
+        return R.ok().data("categoryList", categoryService.fuzzySelectByName(name));
+    }
+
     @ApiOperation("获取图书类型分页列表")
     @GetMapping("list/{pageNum}/{pageSize}")
     public R page(@ApiParam(value = "第几页", required = true) @PathVariable int pageNum,

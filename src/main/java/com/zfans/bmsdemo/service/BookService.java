@@ -19,4 +19,8 @@ public interface BookService {
     List<BookVo> selectAll();
 
     PageResult selectOfPage(int pageNum, int pageSize);
+
+    List<BookVo> fuzzySelectByName(String name);
+
+    List<BookVo> selectByAuthor(String author);
 }

@@ -61,7 +61,7 @@ public class CategoryTests {
 
     @Test
     void categorySelectByLikeTest() {
-        System.out.println(categoryMapper.selectByLike("T"));
+        System.out.println(categoryMapper.fuzzySelectByName("T"));
     }
 
     @Test

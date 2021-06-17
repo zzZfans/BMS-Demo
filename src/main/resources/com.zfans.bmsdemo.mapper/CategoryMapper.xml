@@ -16,7 +16,7 @@
         from category;
     </select>
 
-    <select id="selectByLike" resultType="com.zfans.bmsdemo.entity.Category">
+    <select id="fuzzySelectByName" resultType="com.zfans.bmsdemo.entity.Category">
         select id, name
         from category
         where name
