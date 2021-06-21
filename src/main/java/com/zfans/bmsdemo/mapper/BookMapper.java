@@ -2,6 +2,7 @@ package com.zfans.bmsdemo.mapper;
 
 import com.github.pagehelper.Page;
 import com.zfans.bmsdemo.entity.Book;
+import com.zfans.bmsdemo.entity.vo.BookVo;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -37,12 +38,20 @@ public interface BookMapper {
     @Select("select * from book")
     List<Book> selectAll();
 
+    List<BookVo> selectAllBookVo();
+
     @Select("select * from book")
     Page<Book> selectAllForPage();
+
+    Page<BookVo> selectAllForPageBookVo();
 
     @Select("select * from book where name like concat('%', #{name}, '%')")
     List<Book> fuzzySelectByName(String name);
 
+    List<BookVo> fuzzySelectByNameBookVo(String name);
+
     @Select("select * from book where author = #{author}")
     List<Book> selectByAuthor(String author);
+
+    List<BookVo> selectByAuthorBookVo(String author);
 }

@@ -14,7 +14,6 @@ import com.zfans.bmsdemo.util.page.PageResult;
 import com.zfans.bmsdemo.util.page.PageUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -25,7 +24,7 @@ import java.util.stream.Collectors;
  * @Author Zfans
  * @DateTime 2021/6/16 14:35
  */
-@Service
+// @Service
 public class BookServiceImpl implements BookService {
 
     @Autowired
@@ -135,6 +134,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<BookVo> selectAllBookVo() {
+        return bookMapper.selectAllBookVo();
+    }
+
+    @Override
     public PageResult selectOfPage(int pageNum, int pageSize) {
 
         PageHelper.startPage(pageNum, pageSize);
@@ -147,12 +151,34 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public PageResult selectOfPageBookVo(int pageNum, int pageSize) {
+
+        PageHelper.startPage(pageNum, pageSize);
+
+        List<BookVo> bookVoList = bookMapper.selectAllForPageBookVo();
+
+        PageInfo<BookVo> pageInfo = new PageInfo<>(bookVoList);
+
+        return PageUtil.getPageResult(pageInfo);
+    }
+
+    @Override
     public List<BookVo> fuzzySelectByName(String name) {
         return bookListToBookVoList(bookMapper.fuzzySelectByName(name));
     }
 
     @Override
+    public List<BookVo> fuzzySelectByNameBookVo(String name) {
+        return bookMapper.fuzzySelectByNameBookVo(name);
+    }
+
+    @Override
     public List<BookVo> selectByAuthor(String author) {
         return bookListToBookVoList(bookMapper.selectByAuthor(author));
+    }
+
+    @Override
+    public List<BookVo> selectByAuthorBookVo(String author) {
+        return bookMapper.selectByAuthorBookVo(author);
     }
 }

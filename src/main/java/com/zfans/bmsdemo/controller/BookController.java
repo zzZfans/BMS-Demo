@@ -56,11 +56,26 @@ public class BookController {
         return R.ok().data("bookList", bookService.selectAll());
     }
 
+    @ApiOperation("获取图书列表（联表查询）")
+    @GetMapping("listBookVo")
+    public R listBookVo() {
+        return R.ok().data("bookList", bookService.selectAllBookVo());
+    }
+
     @ApiOperation("获取图书分页列表")
-    @GetMapping("list/{pageNum}/{pageSize}")
+    @GetMapping("page/{pageNum}/{pageSize}")
     public R page(@ApiParam(value = "第几页", required = true) @PathVariable int pageNum,
                   @ApiParam(value = "每页记录数", required = true) @PathVariable int pageSize) {
         PageResult pageResult = bookService.selectOfPage(pageNum, pageSize);
+        return pageResult != null ?
+                R.ok().data("data", pageResult) : R.error().message("查询失败");
+    }
+
+    @ApiOperation("获取图书分页列表（联表查询）")
+    @GetMapping("pageBookVo/{pageNum}/{pageSize}")
+    public R pageBookVo(@ApiParam(value = "第几页", required = true) @PathVariable int pageNum,
+                        @ApiParam(value = "每页记录数", required = true) @PathVariable int pageSize) {
+        PageResult pageResult = bookService.selectOfPageBookVo(pageNum, pageSize);
         return pageResult != null ?
                 R.ok().data("data", pageResult) : R.error().message("查询失败");
     }
@@ -71,10 +86,22 @@ public class BookController {
         return R.ok().data("bookList", bookService.fuzzySelectByName(name));
     }
 
+    @ApiOperation("通过名称匹配获取图书列表（联表查询）")
+    @GetMapping("listBookVo/fuzzy/{name}")
+    public R listBookVoByFuzzy(@ApiParam(value = "图书名称匹配值", required = true) @PathVariable String name) {
+        return R.ok().data("bookList", bookService.fuzzySelectByNameBookVo(name));
+    }
+
     @ApiOperation("通过作者名称获取图书列表")
     @GetMapping("list/{author}")
     public R listByAuthor(@ApiParam(value = "作者名称", required = true) @PathVariable String author) {
         return R.ok().data("bookList", bookService.selectByAuthor(author));
+    }
+
+    @ApiOperation("通过作者名称获取图书列表（联表查询）")
+    @GetMapping("listBookVo/{author}")
+    public R listBookVoByAuthor(@ApiParam(value = "作者名称", required = true) @PathVariable String author) {
+        return R.ok().data("bookList", bookService.selectByAuthorBookVo(author));
     }
 
 }

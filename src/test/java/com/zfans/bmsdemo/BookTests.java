@@ -29,4 +29,9 @@ public class BookTests {
         System.out.println(bookMapper.insert(book));
         System.out.println(book);
     }
+
+    @Test
+    void book() {
+        System.out.println(bookMapper.selectAllBookVo());
+    }
 }

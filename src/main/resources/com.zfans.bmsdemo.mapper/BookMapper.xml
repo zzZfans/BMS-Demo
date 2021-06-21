@@ -11,5 +11,84 @@
             value (#{name}, #{author}, #{publish}, #{price}, #{description}, #{amount})
     </insert>
 
+    <resultMap id="bookVo" type="com.zfans.bmsdemo.entity.vo.BookVo">
+
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="author" column="author"/>
+        <result property="publish" column="publish"/>
+        <result property="price" column="price"/>
+        <result property="description" column="description"/>
+        <result property="amount" column="amount"/>
+
+        <collection property="categoryList" ofType="com.zfans.bmsdemo.entity.Category">
+            <id property="id" column="category_id"/>
+            <result property="name" column="category_name"/>
+        </collection>
+
+    </resultMap>
+
+    <select id="selectAllBookVo" resultMap="bookVo">
+        select book.id,
+               book.name,
+               book.author,
+               book.publish,
+               book.price,
+               book.description,
+               book.amount,
+               c.id   as category_id,
+               c.name as category_name
+        from book
+                 left join book_category bc on book.id = bc.book_id
+                 left join category c on bc.category_id = c.id
+    </select>
+
+
+    <select id="selectAllForPageBookVo" resultMap="bookVo">
+        select book.id,
+               book.name,
+               book.author,
+               book.publish,
+               book.price,
+               book.description,
+               book.amount,
+               c.id   as category_id,
+               c.name as category_name
+        from book
+                 left join book_category bc on book.id = bc.book_id
+                 left join category c on bc.category_id = c.id
+    </select>
+    <select id="fuzzySelectByNameBookVo" resultMap="bookVo">
+        select book.id,
+               book.name,
+               book.author,
+               book.publish,
+               book.price,
+               book.description,
+               book.amount,
+               c.id   as category_id,
+               c.name as category_name
+        from book
+                 left join book_category bc on book.id = bc.book_id
+                 left join category c on bc.category_id = c.id
+        where book.name like concat('%', #{name}, '%')
+    </select>
+
+    <select id="selectByAuthorBookVo" resultMap="bookVo">
+        select book.id,
+               book.name,
+               book.author,
+               book.publish,
+               book.price,
+               book.description,
+               book.amount,
+               c.id   as category_id,
+               c.name as category_name
+        from book
+                 left join book_category bc on book.id = bc.book_id
+                 left join category c on bc.category_id = c.id
+        where author = #{author}
+    </select>
+
 
 </mapper>
