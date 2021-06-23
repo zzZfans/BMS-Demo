@@ -128,7 +128,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
     public List<BookVo> selectAll() {
         return bookListToBookVoList(bookMapper.selectAll());
     }

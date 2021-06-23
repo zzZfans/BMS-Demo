@@ -12,7 +12,6 @@ import com.zfans.bmsdemo.util.page.PageResult;
 import com.zfans.bmsdemo.util.page.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,7 +34,6 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
     public boolean deleteById(Long id) {
         if (bookCategoryMapper.countByCategoryId(id) > 0) {
             throw new BMSDemoException(ResultCodeEnum.UNABLE_TO_REMOVE_DEPENDENCIES);
